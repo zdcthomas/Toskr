@@ -9,15 +9,24 @@ defmodule Bifrost.Config do
   end
 
   def nats_host do
-    System.get_env("NATS_HOST") || '127.0.0.1'
+    System.get_env("NATS_HOST") || "127.0.0.1"
   end
 
   def nats_port do
-    System.get_env("NATS_PORT") || 4222 
+    int_or_default(System.get_env("NATS_PORT"), 4222 )
   end
 
-  def nats_timeout do
-    System.get_env("NATS_timeout") || 3000 
+  def nats_timeout do 
+    int_or_default(System.get_env("NATS_timeout"), 3000 )
+  end
+  
+  def int_or_default(var, _default) when is_binary(var) do
+    {num, _} = Integer.parse(var)
+    num
+  end
+
+  def int_or_default(_var, default) do
+    default
   end
 
 end
