@@ -21,12 +21,8 @@ defmodule BifrostTest do
     assert supervisors == 1
   end
 
+  @tag :skip
   test "it restarts both children when one dies" do
-
-  end
-
-  test "" do
-    
   end
 
 end

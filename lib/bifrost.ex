@@ -10,7 +10,7 @@ defmodule Bifrost do
   end
 
   def init(_opts) do
-    {:ok, gnat} = Gnat.start_link(Bifrost.Config.host_config())
+    {:ok, gnat} = start_nats()
     
     children = [
       worker(HealthCheck,[ %{gnat: gnat} ], shutdown: :brutal_kill),
@@ -18,6 +18,19 @@ defmodule Bifrost do
     ]
 
     {:ok, _supervisor} = Supervisor.init(children, strategy: :rest_for_one)
+  end
+
+  def start_nats() do
+    {:ok, gnat} = Gnat.start_link(Bifrost.Config.host_config())
+  end
+
+  def publish(gnat, topic, message) when is_pid(gnat) do
+    {:ok, gnat} = start_nats()
+    Gnat.pub(gnat, topic, message)
+  end
+
+  def publish(top, message) do
+    Gnat.start_link()
   end
 
 end

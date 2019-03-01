@@ -48,7 +48,7 @@ defmodule PipelineTest do
     receive do
       {:received, received} -> assert subject == received
     after
-      1000 -> flunk("No callback was received") 
+      100 -> flunk("No callback was received") 
     end
 
   end

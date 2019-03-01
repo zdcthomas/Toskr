@@ -4,34 +4,36 @@ defmodule ListenerTest do
     Listener
   }
 
-  test "format returns an atom map when given a string map" do
-    map = %{
-      "foo" => 2,
-      "bar" => "value",
-      "baz" => [1,2,3],
-    }
-    expected = %{
-      :foo => 2,
-      :bar => "value",
-      :baz => [1,2,3],
-    }
+  describe "#format/1" do
+    test "format returns an atom map when given a string map" do
+      map = %{
+        "foo" => 2,
+        "bar" => "value",
+        "baz" => [1,2,3],
+      }
+      expected = %{
+        :foo => 2,
+        :bar => "value",
+        :baz => [1,2,3],
+      }
 
-    assert Listener.format(map) == expected 
-  end
+      assert Listener.format(map) == expected 
+    end
 
-  test "format returns an atom map when given a string map recursively" do
-    map = %{
-      "foo" => 2,
-      "bar" => %{"foo1"=>1, "bar1" => "example"},
-      "baz" => [1,2,3],
-    }
-    expected = %{
-      :foo => 2,
-      :bar => %{:foo1=>1, :bar1 => "example"},
-      :baz => [1,2,3],
-    }
+    test "format returns an atom map when given a string map recursively" do
+      map = %{
+        "foo" => 2,
+        "bar" => %{"foo1"=>1, "bar1" => "example"},
+        "baz" => [1,2,3],
+      }
+      expected = %{
+        :foo => 2,
+        :bar => %{:foo1=>1, :bar1 => "example"},
+        :baz => [1,2,3],
+      }
 
-    assert Listener.format(map) == expected 
+      assert Listener.format(map) == expected 
+    end
   end
 
   @tag :skip
