@@ -1,12 +1,16 @@
 defmodule Bifrost.Listener do
   use GenStage, restart: :transient 
+  @gnat_client Bifrost.Config.nats_client()
+  # =====================
+  # Server methods
+  # =====================
 
   def start_link(%{topic: topic, module: module, funk: funk, gnat: gnat}) do
     {:ok, listener} = GenStage.start_link(__MODULE__, %{topic: topic, module: module, funk: funk, gnat: gnat}, name: String.to_atom(topic))
   end
 
   def init(%{topic: topic, module: module, funk: funk, gnat: gnat}) do
-    Gnat.sub(gnat, self(), topic)
+    @gnat_client.sub(gnat, self(), topic)
     {:producer, %{module: module, funk: funk, demand: 0, messages: []}}
   end
 
@@ -16,12 +20,16 @@ defmodule Bifrost.Listener do
 
   def handle_info({:msg, %{body: body, topic: topic}} = params, state) do
     event = Jason.decode!(body)
-      |> format()
+      |>format()
       |>Map.put(:module, state[:module])
       |>Map.put(:funk, state[:funk])
 
     dispatch_messages(%{state| messages: [event | state[:messages]]})
   end
+
+  # =====================
+  # Helper methods
+  # =====================
 
   def format(opts) when is_map(opts) do
     opts

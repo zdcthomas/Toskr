@@ -29,4 +29,8 @@ defmodule Bifrost.Config do
     default
   end
 
+  def nats_client() do
+    Application.get_env(:bifrost, :nats_client) || Gnat
+  end
+
 end
