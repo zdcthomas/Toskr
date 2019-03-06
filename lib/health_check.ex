@@ -1,6 +1,18 @@
 defmodule Bifrost.HealthCheck do
   use GenServer
   @gnat_client Bifrost.Config.nats_client()
+  @check_freq 500
+  @moduledoc """
+  This module will check the health of nats periodically. 
+  This amount is currently set in module in the check_freq var,
+  however, there are plans to extract this to be an env var.
+
+  ## Examples
+
+      iex> Math.sum(1, 2)
+      3
+
+  """
 
   def start_link(%{gnat: gnat} = opts) do
     {:ok, pid} = GenServer.start_link(__MODULE__, opts)
@@ -19,7 +31,7 @@ defmodule Bifrost.HealthCheck do
   end
 
   def schedule_check() do
-    Process.send_after(self(), :check, 500)
+    Process.send_after(self(), :check, @check_freq)
   end
 
 end

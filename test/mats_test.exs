@@ -4,22 +4,26 @@ defmodule MatTest do
     Mat
   }
 
-  @tag :skip
   test "ping should always return :ok when given a mats pid" do
     {:ok, mat} = Mat.start_link()
     assert Mat.ping(mat) == :ok
   end
 
-  @tag :skip
   test "start_link returns a Mat pid" do
+    {:ok, mat} = Mat.start_link()
+    assert is_pid(mat)
   end
 
-  @tag :skip
   test "Mat.pub adds sends a message to the subscribed processes" do
-  end
-
-  @tag :skip
-  test "Mat.sub will cause " do
+    {:ok, mat} = Mat.start_link()
+    message = "message received"
+    :ok = Mat.sub(mat, self(), "foo")
+    :ok = Mat.pub(mat, "foo", message)
+    receive do
+      {:msg, received} -> assert message == received
+    after
+      1000 -> flunk("No callback was received from mock nats") 
+    end
   end
 
 end
