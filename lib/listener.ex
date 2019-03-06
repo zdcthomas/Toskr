@@ -19,7 +19,9 @@ defmodule Bifrost.Listener do
   end
 
   def handle_info({:msg, %{body: body, topic: topic}} = params, state) do
-    event = Jason.decode!(body)
+    event =
+      body
+      |>Jason.decode!()
       |>format()
       |>Map.put(:module, state[:module])
       |>Map.put(:funk, state[:funk])

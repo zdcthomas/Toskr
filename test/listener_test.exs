@@ -25,12 +25,12 @@ defmodule ListenerTest do
       map = %{
         "foo" => 2,
         "bar" => "value",
-        "baz" => [1,2,3],
+        "baz" => [1, 2, 3],
       }
       expected = %{
         :foo => 2,
         :bar => "value",
-        :baz => [1,2,3],
+        :baz => [1, 2, 3],
       }
 
       assert Listener.format(map) == expected 
@@ -40,12 +40,12 @@ defmodule ListenerTest do
       map = %{
         "foo" => 2,
         "bar" => %{"foo1"=>1, "bar1" => "example"},
-        "baz" => [1,2,3],
+        "baz" => [1, 2, 3],
       }
       expected = %{
         :foo => 2,
         :bar => %{:foo1=>1, :bar1 => "example"},
-        :baz => [1,2,3],
+        :baz => [1, 2, 3], 
       }
 
       assert Listener.format(map) == expected 
@@ -66,7 +66,7 @@ defmodule ListenerTest do
     params = nats_params()
 
     {:noreply, events, state} = Listener.handle_info(params, state)
-    assert Enum.count(events) == 0
+    assert events == []
     assert Map.get(state, :demand) == 0 
 
     state  = %{module: TestModule, funk: :foo, demand: 1, messages: []}
@@ -86,7 +86,7 @@ defmodule ListenerTest do
 
     messages = Map.get(state, :messages)
     assert Enum.count(messages) == 2
-    [ first, next ] = messages
+    [first, next] = messages
     assert Map.get(next, :id) == 1
     assert Map.get(first, :id) == 2
   end

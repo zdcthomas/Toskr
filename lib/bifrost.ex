@@ -15,8 +15,8 @@ defmodule Bifrost do
     {:ok, gnat} = start_nats()
     
     children = [
-      worker(HealthCheck,[ %{gnat: gnat} ], shutdown: :brutal_kill),
-      supervisor(Pipeline, [ %{gnat: gnat} ]),
+      worker(HealthCheck, [%{gnat: gnat}], shutdown: :brutal_kill),
+      supervisor(Pipeline, [%{gnat: gnat}]),
     ]
 
     {:ok, _supervisor} = Supervisor.init(children, strategy: :rest_for_one)
