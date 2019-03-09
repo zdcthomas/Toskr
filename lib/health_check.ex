@@ -12,7 +12,7 @@ defmodule Bifrost.HealthCheck do
 
   def handle_info(:check, %{gnat: gnat}=opts) do
     :ok = Gnat.ping(gnat)
-    :ok = GenServer.cast(:check, opts)
+    :ok = GenServer.cast(:check, opts)       # where is this cast going?
     {:noreply, opts}
   end
 

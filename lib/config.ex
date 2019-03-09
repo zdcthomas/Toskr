@@ -13,11 +13,11 @@ defmodule Bifrost.Config do
   end
 
   def nats_port do
-    System.get_env("NATS_PORT") || 4222 
+    System.get_env("NATS_PORT") || 4222
   end
 
   def nats_timeout do
-    System.get_env("NATS_timeout") || 3000 
+    System.get_env("NATS_timeout") || 3000   # Supposed to be lower case?
   end
 
 end
