@@ -1,8 +1,8 @@
-defmodule Bifrost.Handler do
-  alias Bifrost.{
+defmodule Toskr.Handler do
+  alias Toskr.{
     Worker,
     Listener,
-    Eventbody, 
+    Eventbody,
     State,
   }
 

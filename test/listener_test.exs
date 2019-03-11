@@ -1,7 +1,7 @@
 defmodule ListenerTest do
   use ExUnit.Case
   require IEx
-  alias Bifrost.{
+  alias Toskr.{
     Listener
   }
 
@@ -11,7 +11,7 @@ defmodule ListenerTest do
       id:      Map.get(params, :id)      || 1,
       context: Map.get(params, :context) || %{object: Map.get(params, :object)   || inspect(self()),
                                              subject: Map.get(params, :subject) || "foo"},
-      meta:    Map.get(params, :meta)    || %{sent: 'yesterday'}, 
+      meta:    Map.get(params, :meta)    || %{sent: 'yesterday'},
       at:      Map.get(params, :at)      || ~T[23:00:07.001],
       topic:   Map.get(params, :topic)   ||  TopicRouter.foo_topic,
     }
@@ -33,7 +33,7 @@ defmodule ListenerTest do
         :baz => [1, 2, 3],
       }
 
-      assert Listener.format(map) == expected 
+      assert Listener.format(map) == expected
     end
 
     test "format returns an atom map when given a string map recursively" do
@@ -45,10 +45,10 @@ defmodule ListenerTest do
       expected = %{
         :foo => 2,
         :bar => %{:foo1=>1, :bar1 => "example"},
-        :baz => [1, 2, 3], 
+        :baz => [1, 2, 3],
       }
 
-      assert Listener.format(map) == expected 
+      assert Listener.format(map) == expected
     end
   end
 
@@ -56,7 +56,7 @@ defmodule ListenerTest do
     state  = %{module: TestModule, funk: :foo, demand: 0, messages: []}
     params = nats_params()
 
-    {:noreply, events, state} = Listener.handle_info(params, state)
+    {:noreply, _events, state} = Listener.handle_info(params, state)
     state_messages = Map.get(state, :messages)
     assert Enum.count(state_messages) == 1
   end
@@ -67,22 +67,22 @@ defmodule ListenerTest do
 
     {:noreply, events, state} = Listener.handle_info(params, state)
     assert events == []
-    assert Map.get(state, :demand) == 0 
+    assert Map.get(state, :demand) == 0
 
     state  = %{module: TestModule, funk: :foo, demand: 1, messages: []}
     params = nats_params()
 
     {:noreply, events, state} = Listener.handle_info(params, state)
     assert Enum.count(events) == 1
-    assert Map.get(state, :demand) == 0 
+    assert Map.get(state, :demand) == 0
   end
 
   test "messages get added to the beginning of the queue" do
     state  = %{module: TestModule, funk: :foo, demand: 0, messages: []}
     params = nats_params()
-    {:noreply, events, state} = Listener.handle_info(params, state)
+    {:noreply, _events, state} = Listener.handle_info(params, state)
     params = nats_params(%{id: 2})
-    {:noreply, events, state} = Listener.handle_info(params, state)
+    {:noreply, _events, state} = Listener.handle_info(params, state)
 
     messages = Map.get(state, :messages)
     assert Enum.count(messages) == 2

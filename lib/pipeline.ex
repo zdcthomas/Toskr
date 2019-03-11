@@ -1,7 +1,7 @@
-defmodule Bifrost.Pipeline do
+defmodule Toskr.Pipeline do
   require IEx
   use Supervisor
-  alias Bifrost.{
+  alias Toskr.{
     Listener,
   }
 
@@ -9,18 +9,17 @@ defmodule Bifrost.Pipeline do
     Supervisor.start_link(__MODULE__, opts)
   end
 
-  def init(opts) do
-    %{gnat: gnat} = opts
+  def init( %{gnat: gnat} ) do
     :ok = Gnat.ping(gnat)
 
     listeners =
       TopicRouter.routes()
       |>Enum.map(fn(x) -> Tuple.append(x, gnat) end)
       |>Enum.map(&__MODULE__.spec_listener/1)
-    
-    children = listeners ++ [supervisor(Bifrost.Handler, [listeners])]
 
-    {:ok, supervisor} = Supervisor.init(children, strategy: :one_for_one)
+    children = listeners ++ [supervisor(Toskr.Handler, [listeners])]
+
+    {:ok, _supervisor} = Supervisor.init(children, strategy: :one_for_one)
   end
 
   def spec_listener({topic, module, funk, gnat}) do

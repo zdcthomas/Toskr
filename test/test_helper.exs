@@ -14,11 +14,11 @@ end
 defmodule TestModule do
 
   def foo(params) do
-    pid = 
+    pid =
       params[:context][:object]
       |>pid_from_string()
     subject = params[:context][:subject]
-    send(pid, {:received, subject}) 
+    send(pid, {:received, subject})
   end
 
   def bar(body) do
@@ -40,7 +40,7 @@ end
 defmodule TopicRouter do
 
   def foo_topic do
-   "foo" 
+   "foo"
   end
 
   def bar_topic do
@@ -50,7 +50,7 @@ defmodule TopicRouter do
   def routes() do
     [
       {foo_topic(), TestModule, :foo },
-      {bar_topic(), TestModule, :bar }
+      {bar_topic(), TestModule, :bar },
     ]
   end
 end

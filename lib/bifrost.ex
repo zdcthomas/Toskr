@@ -1,7 +1,7 @@
-defmodule Bifrost do
+defmodule Toskr do
   use Supervisor
-  alias Bifrost.{
-    Pipeline, 
+  alias Toskr.{
+    Pipeline,
     HealthCheck,
     Config,
   }
@@ -13,7 +13,7 @@ defmodule Bifrost do
 
   def init(_opts) do
     {:ok, gnat} = start_nats()
-    
+
     children = [
       worker(HealthCheck, [%{gnat: gnat}], shutdown: :brutal_kill),
       supervisor(Pipeline, [%{gnat: gnat}]),
@@ -22,17 +22,20 @@ defmodule Bifrost do
     {:ok, _supervisor} = Supervisor.init(children, strategy: :rest_for_one)
   end
 
+  @spec start_nats() :: {:ok, pid()}
   def start_nats() do
-    {:ok, gnat} = Gnat.start_link(Bifrost.Config.host_config())
+    {:ok, _gnat} = @gnat_client.start_link(Toskr.Config.host_config())
   end
 
+  @spec publish(pid(), binary(), map()) :: :ok
   def publish(gnat, topic, message) when is_pid(gnat) and is_map(message) do
-    Gnat.pub(gnat, topic, message)
+    json_message = Jason.encode!(message)
+    :ok = Gnat.pub(gnat, topic, json_message)
   end
 
   def publish(topic, message) do
     {:ok, gnat} = start_nats()
-    publish(gnat, topic, message)
+    :ok = publish(gnat, topic, message)
   end
 
 end

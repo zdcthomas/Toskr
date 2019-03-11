@@ -1,12 +1,12 @@
 defmodule PipelineTest do
   use ExUnit.Case
   require IEx
-  alias Bifrost.{ 
+  alias Toskr.{
     EventBody,
     Pipeline,
   }
   doctest Pipeline
- 
+
   test "it starts up something" do
     {:ok, gnat} = Gnat.start_link()
     {:ok, pid} = Pipeline.start_link(%{gnat: gnat})
@@ -24,7 +24,7 @@ defmodule PipelineTest do
     workers = Map.get(supervisor_children, :workers)
     supervisors = Map.get(supervisor_children, :supervisors)
 
-    # this is the two listeners described in the fake router and the consumer supervisor 
+    # this is the two listeners described in the fake router and the consumer supervisor
     # listening to those
     assert workers == 2
     assert supervisors == 1
@@ -38,7 +38,7 @@ defmodule PipelineTest do
     message_body = %EventBody{
       id: 1,
       context: %{object: inspect(self()), subject: subject},
-      meta: %{sent: 'yesterday'}, 
+      meta: %{sent: 'yesterday'},
       at: ~T[23:00:07.001],
       topic: TopicRouter.foo_topic
     }
@@ -48,7 +48,7 @@ defmodule PipelineTest do
     receive do
       {:received, received} -> assert subject == received
     after
-      100 -> flunk("No callback was received") 
+      100 -> flunk("No callback was received")
     end
 
   end

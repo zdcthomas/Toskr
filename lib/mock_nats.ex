@@ -1,4 +1,4 @@
-defmodule Bifrost.Mat do
+defmodule Toskr.Mat do
 
   def start_link() do
     {:ok, mat} = PubSub.start_link()

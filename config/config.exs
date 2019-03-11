@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure your application as:
 #
-#     config :bifrost, key: :value
+#     config :toskr, key: :value
 #
 # and access this configuration in your application as:
 #
-#     Application.get_env(:bifrost, :key)
+#     Application.get_env(:toskr, :key)
 #
 # You can also configure a third-party app:
 #

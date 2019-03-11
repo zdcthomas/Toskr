@@ -1,4 +1,4 @@
-defmodule Bifrost.Config do
+defmodule Toskr.Config do
 
   def host_config() do
     %{
@@ -16,10 +16,10 @@ defmodule Bifrost.Config do
     int_or_default(System.get_env("NATS_PORT"), 4222 )
   end
 
-  def nats_timeout do 
+  def nats_timeout do
     int_or_default(System.get_env("NATS_timeout"), 3000 )
   end
-  
+
   def int_or_default(var, _default) when is_binary(var) do
     {num, _} = Integer.parse(var)
     num
@@ -30,7 +30,7 @@ defmodule Bifrost.Config do
   end
 
   def nats_client() do
-    Application.get_env(:bifrost, :nats_client) || Gnat
+    Application.get_env(:toskr, :nats_client) || Gnat
   end
 
 end

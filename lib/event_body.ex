@@ -1,4 +1,4 @@
-defmodule Bifrost.EventBody do
+defmodule Toskr.EventBody do
   @derive Jason.Encoder
 
   defstruct [:id, :context, :meta, :at, :topic]

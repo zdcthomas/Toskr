@@ -1,14 +1,14 @@
-defmodule BifrostTest do
+defmodule ToskrTest do
   use ExUnit.Case
   require IEx
 
   test "it starts up something" do
-    {:ok, pid} = Bifrost.start_link([])
+    {:ok, pid} = Toskr.start_link([])
     assert is_pid(pid)
   end
 
   test "it starts up a worker and a supervisor" do
-    {:ok, supervisor} = start_supervised({Bifrost, []})
+    {:ok, supervisor} = start_supervised({Toskr, []})
 
     supervisor_children =
       supervisor

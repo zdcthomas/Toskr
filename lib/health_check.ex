@@ -1,9 +1,9 @@
-defmodule Bifrost.HealthCheck do
+defmodule Toskr.HealthCheck do
   use GenServer
-  @gnat_client Bifrost.Config.nats_client()
+  @gnat_client Toskr.Config.nats_client()
   @check_freq 500
   @moduledoc """
-  This module will check the health of nats periodically. 
+  This module will check the health of nats periodically.
   This amount is currently set in module in the check_freq var,
   however, there are plans to extract this to be an env var.
 

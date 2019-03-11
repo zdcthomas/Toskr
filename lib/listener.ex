@@ -1,12 +1,13 @@
-defmodule Bifrost.Listener do
-  use GenStage, restart: :transient 
-  @gnat_client Bifrost.Config.nats_client()
+defmodule Toskr.Listener do
+  use GenStage, restart: :transient
+  @gnat_client Toskr.Config.nats_client()
   # =====================
   # Server methods
   # =====================
 
+  @spec start_link(%{funk: any(), gnat: any(), module: any(), topic: any()}) :: {:ok, pid()}
   def start_link(%{topic: topic, module: module, funk: funk, gnat: gnat}) do
-    {:ok, listener} = GenStage.start_link(__MODULE__, %{topic: topic, module: module, funk: funk, gnat: gnat}, name: String.to_atom(topic))
+    {:ok, _listener} = GenStage.start_link(__MODULE__, %{topic: topic, module: module, funk: funk, gnat: gnat}, name: String.to_atom(topic))
   end
 
   def init(%{topic: topic, module: module, funk: funk, gnat: gnat}) do
@@ -18,7 +19,9 @@ defmodule Bifrost.Listener do
     dispatch_messages(%{state | demand: state.demand + demand})
   end
 
-  def handle_info({:msg, %{body: body, topic: topic}} = params, state) do
+  @spec handle_info({:msg, %{body: any(), topic: any()}}, %{messages: any()}) ::
+          {:noreply, [any()], %{demand: number(), messages: [any()]}}
+  def handle_info({:msg, %{body: body, topic: _topic}}, state) do
     event =
       body
       |>Jason.decode!()

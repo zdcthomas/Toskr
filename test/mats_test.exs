@@ -1,6 +1,6 @@
 defmodule MatTest do
   use ExUnit.Case
-  alias Bifrost.{
+  alias Toskr.{
     Mat
   }
 
@@ -22,7 +22,7 @@ defmodule MatTest do
     receive do
       {:msg, received} -> assert message == received
     after
-      1000 -> flunk("No callback was received from mock nats") 
+      1000 -> flunk("No callback was received from mock nats")
     end
   end
 
