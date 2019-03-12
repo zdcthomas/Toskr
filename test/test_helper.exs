@@ -22,6 +22,7 @@ defmodule TestModule do
   end
 
   def bar(body) do
+    # credo:disable-for-next-line
     IO.inspect body: body
   end
 
