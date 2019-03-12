@@ -1,4 +1,11 @@
 defmodule Toskr do
+  @moduledoc """
+  This module is the entry point for the entire app.
+  Init will start up:
+    * The health check worker which will ping nats on a loop
+    * The Pipeline supervisor, which will start up the listeners and consumer supervisor underneath it
+
+  """
   use Supervisor
   alias Toskr.{
     Pipeline,

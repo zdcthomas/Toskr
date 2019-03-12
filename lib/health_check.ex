@@ -14,8 +14,8 @@ defmodule Toskr.HealthCheck do
 
   """
 
-  def start_link(%{gnat: gnat} = opts) do
-    {:ok, pid} = GenServer.start_link(__MODULE__, opts)
+  def start_link(%{gnat: _gnat} = opts) do
+    {:ok, _pid} = GenServer.start_link(__MODULE__, opts)
   end
 
   def init(%{gnat: gnat} = opts) do
@@ -24,7 +24,7 @@ defmodule Toskr.HealthCheck do
     {:ok, opts}
   end
 
-  def handle_info(:check, %{gnat: gnat} = opts) do
+  def handle_cast(:check, %{gnat: gnat} = opts) do
     :ok = @gnat_client.ping(gnat)
     :ok = GenServer.cast(:check, opts)
     {:noreply, opts}

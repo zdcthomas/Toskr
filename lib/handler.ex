@@ -1,4 +1,8 @@
 defmodule Toskr.Handler do
+  @moduledoc """
+  This module is the consumer supervisor which receives subscriptions from the listeners.
+  The current name is somewhat misleading as it does not actually "handle" any of the messages
+  """
   alias Toskr.{
     Worker,
     Listener,

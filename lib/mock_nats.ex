@@ -1,4 +1,7 @@
 defmodule Toskr.Mat do
+  @moduledoc """
+  This module mocks out the `Gnat` module's behaviour, to avoid any outgoing connection (most likely for testing)
+  """
 
   def start_link() do
     {:ok, mat} = PubSub.start_link()

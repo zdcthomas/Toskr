@@ -1,4 +1,7 @@
 defmodule Toskr.Config do
+  @moduledoc """
+    This module provides  wrapper for all configurable state of the system.
+  """
 
   def host_config() do
     %{

@@ -10,15 +10,17 @@ An eagle sits at the top of the ash, and it has knowledge of many things. Betwee
 (Rata)Toskr, the crap-talking squirrel, is obviously a fantastic messanger god and in our system it's no different. Toskr allows communication between the various services in our system, all through a centralized Pub Sub(Nats) server.
 
 Nats' most fundamental functionality is the publishing of and subscription to `messages` on various channels known as `topics`.
-For example: Say a user in our system just created a post. The topic might be `user.created.post` and the message associated with this event might be a json string containing information about the user, the post, and the event in general.
+
+For example: Say a user in our system just created a post. The topic might be `"user.created.post"` and the message associated with this event might be a json string containing information about the user, the post, and the event in general.
+
 With this library, you can easily [publish](#publishing) these messages, specifying both the topic and the message.
+
 You can also easily [subscribe](#subscribing) to all topics which your service is interested in. 
 
-# Publishing
+# Assumptions
+The default configuration assumes that you have a local running Nats server listening on port 4222 However, this is fully [configurable](#Configuration). 
 
-# Subscribing
-Subscribing is done through the `TopicRouter`, a module in which the messages from a given `topic` can be routed into any specified function.
-The topics given in the router must be unique as each one acts as the global name of the listener process which will actually receive the message from our Nats server
+If you want to avoid an outside connection to Nats (say, for testing) there is a [mock nats implementation](#Testing)
 
 # Installation
 
@@ -33,6 +35,14 @@ def deps do
 end
 ```
 
+# Publishing
+
+# Subscribing
+Subscribing is done through the `TopicRouter`, a module in which the messages from a given `topic` can be routed into any specified function.
+The topics given in the router must be unique as each one acts as the global name of the listener process which will actually receive the message from our Nats server
+
+# Testing
+
 If you want your app to not connect to an actually nats server, there is a mock of the `gnat` hex which will make no external api calls. This mock module is called `Mat` (mock-Gnat) To do this, in your `test.exs`:
 
 ```elixir
@@ -40,11 +50,12 @@ config :toskr,
   nats_client: Mat,
 ```
 
-## Configuration 
-Toskr is configurable 
+# Configuration 
+Toskr is fully configurable using environment variables.
+| ENV Var  | Default |
+|----------|---------|
+| NATS_HOST  |  127.0.0.1 |
 
-### Pub sub mocking
-  Toskr 
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can

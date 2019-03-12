@@ -1,4 +1,9 @@
 defmodule Toskr.Pipeline do
+  @moduledoc """
+  This module wraps the supervisor which creates the listener group of genstages, and the consumersupervisor which subscribes to them.
+  Each of the listeners is created with a an atomized version of their name (see __MODULE__.spec_listener/1).
+  With the current implimentation, there can be only a single listener for each topic.
+  """
   require IEx
   use Supervisor
   alias Toskr.{
@@ -9,7 +14,7 @@ defmodule Toskr.Pipeline do
     Supervisor.start_link(__MODULE__, opts)
   end
 
-  def init( %{gnat: gnat} ) do
+  def init(%{gnat: gnat}) do
     :ok = Gnat.ping(gnat)
 
     listeners =
