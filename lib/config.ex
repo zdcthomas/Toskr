@@ -33,7 +33,12 @@ defmodule Toskr.Config do
   end
 
   def nats_client() do
-    Application.get_env(:toskr, :nats_client) || Gnat
+    case Application.get_env(:toskr, :nats_client) do
+      :mock ->
+        Toskr.Mat
+      nil   ->
+        Gnat
+    end
   end
 
 end
