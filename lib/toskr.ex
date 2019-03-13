@@ -42,7 +42,7 @@ defmodule Toskr do
 
   def publish(topic, message) do
     {:ok, gnat} = start_nats()
-    :ok = publish(gnat, topic, message)
+    :ok = @gnat_client.pub(gnat, topic, message)
   end
 
 end

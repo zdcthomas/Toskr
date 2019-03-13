@@ -6,12 +6,6 @@ defmodule Toskr.HealthCheck do
   This module will check the health of nats periodically.
   This amount is currently set in module in the check_freq var,
   however, there are plans to extract this to be an env var.
-
-  ## Examples
-
-      iex> Math.sum(1, 2)
-      3
-
   """
 
   def start_link(%{gnat: _gnat} = opts) do
