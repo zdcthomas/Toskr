@@ -5,8 +5,8 @@ defmodule HealthCeckTest do
   test "it pings nats repeatedly" do
   end
 
-  @tag :skip
   # I don't know how to test this
+  @tag :skip
   test "it crashes if nats goes down" do
   end
 
