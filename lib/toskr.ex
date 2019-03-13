@@ -37,7 +37,7 @@ defmodule Toskr do
   @spec publish(pid(), binary(), map()) :: :ok
   def publish(gnat, topic, message) when is_pid(gnat) and is_map(message) do
     json_message = Jason.encode!(message)
-    :ok = Gnat.pub(gnat, topic, json_message)
+    :ok = @gnat_client.pub(gnat, topic, json_message)
   end
 
   def publish(topic, message) do

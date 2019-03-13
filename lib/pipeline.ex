@@ -4,7 +4,7 @@ defmodule Toskr.Pipeline do
   Each of the listeners is created with a an atomized version of their name (see __MODULE__.spec_listener/1).
   With the current implimentation, there can be only a single listener for each topic.
   """
-  require IEx
+  @gnat_client Toskr.Config.nats_client()
   use Supervisor
   alias Toskr.{
     Listener,
@@ -15,7 +15,7 @@ defmodule Toskr.Pipeline do
   end
 
   def init(%{gnat: gnat}) do
-    :ok = Gnat.ping(gnat)
+    :ok = @gnat_client.ping(gnat)
 
     listeners =
       TopicRouter.routes()
