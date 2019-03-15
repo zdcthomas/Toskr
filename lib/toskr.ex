@@ -8,6 +8,7 @@ defmodule Toskr do
   """
   use Supervisor
   alias Toskr.{
+    EventBody,
     Pipeline,
     HealthCheck,
     Config,
@@ -34,15 +35,21 @@ defmodule Toskr do
     {:ok, _gnat} = @gnat_client.start_link(Toskr.Config.host_config())
   end
 
-  @spec publish(pid(), binary(), map()) :: :ok
-  def publish(gnat, topic, message) when is_pid(gnat) and is_map(message) do
-    json_message = Jason.encode!(message)
+  @spec publish(pid(), binary(), [{:context, map()}, ...]) :: :ok
+  def publish(gnat, topic, [context: context] = opts) when is_pid(gnat) and is_map(context) do
+    meta = Keyword.get(opts, :meta, %{})
+    json_message =
+      context
+      |>EventBody.event_body(topic, meta)
+      |>Jason.encode!()
+
     :ok = @gnat_client.pub(gnat, topic, json_message)
   end
 
-  def publish(topic, message) do
+  @spec publish(binary(), [{:context, map()}, ...]) :: :ok
+  def publish(topic, [context: context] = opts) when is_map(context) do
     {:ok, gnat} = start_nats()
-    :ok = publish(gnat, topic, message)
+    publish(gnat, topic, opts)
   end
 
 end

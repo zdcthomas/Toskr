@@ -24,7 +24,7 @@ defmodule Toskr.Handler do
 
     children = [%{id: Worker, restart: :transient, start: {Worker, :start_link, []}}]
     opts = [strategy: :one_for_one, subscribe_to: subs]
-    {:ok, a, con_supervisor} = ConsumerSupervisor.init(children, opts)
+    {:ok, _, _con_supervisor} = ConsumerSupervisor.init(children, opts)
   end
 
 end

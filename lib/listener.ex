@@ -47,6 +47,7 @@ defmodule Toskr.Listener do
   # Helper methods
   # =====================
 
+  @spec format(any()) :: any()
   def format(opts) when is_map(opts) do
     opts
     |>Map.new(fn {k, v} -> {String.to_atom(k), format(v)} end)
