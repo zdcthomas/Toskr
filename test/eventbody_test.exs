@@ -41,7 +41,7 @@ defmodule EventBodyTest do
       topic = "foo"
       event = EventBody.event_body(context, topic)
 
-      event
+      assert event
       |>Jason.encode!()
       |>Jason.decode!()
       |>is_map()

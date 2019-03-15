@@ -30,7 +30,7 @@ defmodule ToskrTest do
                   }
       topic = "pub.test"
       {:ok, pid} = Gnat.start_link()
-      {:ok, subscription} = Gnat.sub(pid, self(), topic)
+      {:ok, _subscription} = Gnat.sub(pid, self(), topic)
       Toskr.publish(pid, topic, context: context)
 
       receive do
