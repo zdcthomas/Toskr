@@ -4,11 +4,11 @@ defmodule Toskr.Mat do
   """
 
   def start_link() do
-    {:ok, mat} = PubSub.start_link()
+    {:ok, _mat} = PubSub.start_link()
   end
 
   def start_link(_opts) do
-    {:ok, mat} = PubSub.start_link()
+    {:ok, _mat} = PubSub.start_link()
   end
 
   def ping(mat) when is_pid(mat) do
@@ -20,6 +20,10 @@ defmodule Toskr.Mat do
   end
 
   def sub(_mat, pid, topic) do
+    :ok = PubSub.subscribe(pid, topic)
+  end
+
+  def test_sub(pid, topic) when is_pid(pid) do
     :ok = PubSub.subscribe(pid, topic)
   end
 end
