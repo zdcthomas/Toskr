@@ -4,7 +4,10 @@ defmodule Toskr.Mat do
   """
 
   def start_link() do
-    {:ok, _mat} = PubSub.start_link()
+    case PubSub.start_link() do
+      {:ok, mat} -> {:ok, mat}
+      {:error, {:already_started, mat}} -> {:ok, mat }
+    end
   end
 
   def start_link(_opts) do
