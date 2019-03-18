@@ -11,7 +11,7 @@ defmodule Toskr.Mat do
   end
 
   def start_link(_opts) do
-    {:ok, _mat} = PubSub.start_link()
+    start_link()
   end
 
   def ping(mat) when is_pid(mat) do
