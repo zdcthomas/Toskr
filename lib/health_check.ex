@@ -18,9 +18,9 @@ defmodule Toskr.HealthCheck do
     {:ok, opts}
   end
 
-  def handle_cast(:check, %{gnat: gnat} = opts) do
+  def handle_info(:check, %{gnat: gnat} = opts) do
     :ok = @gnat_client.ping(gnat)
-    :ok = GenServer.cast(:check, opts)
+    schedule_check()
     {:noreply, opts}
   end
 
