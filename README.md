@@ -3,7 +3,9 @@
 In Norse Mythology, Ratatoskr is the squirrel whos runs up and down Yggdrasil, the tree of life, and carries angry messages between Níðhöggr(the worm who lives in the roots of Yggrasil), and the eagle which lives on the top most branches of the tree. 
 From the [Prose Edda](http://www.gutenberg.org/files/18947/18947-h/18947-h.htm)
 ```
-An eagle sits at the top of the ash, and it has knowledge of many things. Between its eyes sits the hawk called Vedrfolnir [...]. The squirrel called Ratatosk [...] runs up and down the ash. He tells slanderous gossip, provoking the eagle and Nidhogg.
+An eagle sits at the top of the ash, and it has knowledge of many things. 
+Between its eyes sits the hawk called Vedrfolnir [...]. The squirrel called Ratatosk [...]
+runs up and down the ash. He tells slanderous gossip, provoking the eagle and Nidhogg.
 ```
 
 # What?
